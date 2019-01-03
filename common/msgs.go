@@ -1,10 +1,10 @@
-package main
+package common
 
-import (
-	"encoding/gob"
-	"fmt"
-	"net"
-)
+// CityInterface is a representation to a city entity
+type CityInterface interface {
+	SendVector()
+	RetrieveJunction()
+}
 
 // Location aggregates the information about the place
 // where an actor is at a certain moment in time
@@ -44,33 +44,4 @@ const (
 type Envelope struct {
 	MessageType int
 	Payload     interface{}
-}
-
-func comm(c net.Conn) {
-	defer c.Close()
-	defer fmt.Println("Connection closed")
-
-	gob.Register(Report{})
-	gob.Register(Junction{})
-
-	dec := gob.NewDecoder(c)
-	env := new(Envelope)
-	err := dec.Decode(&env)
-	if err != nil {
-		fmt.Println("Error on decoding", err)
-		return
-	}
-
-	switch env.MessageType {
-	case SendReport:
-		fmt.Println("Received report", env)
-	case AskForJunction:
-		fmt.Println("Received query on junction", env)
-		enc := gob.NewEncoder(c)
-		err := enc.Encode(Envelope{MessageType: RespondWithJunction})
-		if err != nil {
-			fmt.Println("Error on decoding", err)
-			return
-		}
-	}
 }

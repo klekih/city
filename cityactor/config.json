@@ -1,0 +1,9 @@
+{
+    "simulationStep": 500,
+    "getRouteRetries": 5,
+    "boundingBox":
+    {
+        "first": "46.7841,23.5722",
+        "second": "46.7655,23.6278"
+    }
+}
