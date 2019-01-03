@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"os"
 	"time"
+
+	"github.com/klekih/city/common"
 )
 
 var ticker *time.Ticker
@@ -18,7 +20,7 @@ type WalkerStatus struct {
 }
 
 // StartWalker is the main entry point for starting a walker
-func StartWalker(config *Config, city *CityInterface) chan WalkerStatus {
+func StartWalker(config *Config, city *common.CityInterface) chan WalkerStatus {
 
 	// first, get a route to go on
 	myRoute = getRoute(config)
@@ -62,7 +64,7 @@ func getRoute(config *Config) *Route {
 	return route
 }
 
-func advance(city *CityInterface, chanReport chan Report, junctionChan chan Junction) {
+func advance(city *common.CityInterface, chanReport chan common.Report, junctionChan chan common.Junction) {
 
 	if myRoute == nil {
 		panic("No route to go on")
@@ -95,10 +97,10 @@ func advance(city *CityInterface, chanReport chan Report, junctionChan chan Junc
 	}
 
 	fmt.Println("Report to the city")
-	chanReport <- Report{
-		Loc: Location{
+	chanReport <- common.Report{
+		Loc: common.Location{
 			Long: 10.0,
 			Lat:  20.0}}
 
-	junctionChan <- Junction{}
+	junctionChan <- common.Junction{}
 }

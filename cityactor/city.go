@@ -4,14 +4,16 @@ import (
 	"encoding/gob"
 	"fmt"
 	"net"
+
+	"github.com/klekih/city/common"
 )
 
 // Connect is the typical method used for connecting to
 // a city.
-func Connect() (chan Report, chan Junction) {
+func Connect() (chan common.Report, chan common.Junction) {
 
-	var sendReportChan = make(chan Report)
-	var junctionChan = make(chan Junction)
+	var sendReportChan = make(chan common.Report)
+	var junctionChan = make(chan common.Junction)
 
 	go func() {
 		for {
@@ -24,8 +26,8 @@ func Connect() (chan Report, chan Junction) {
 				}
 				defer conn.Close()
 
-				env := Envelope{
-					MessageType: SendReport,
+				env := common.Envelope{
+					MessageType: common.SendReport,
 					Payload:     r}
 
 				gob.Register(r)
@@ -41,11 +43,11 @@ func Connect() (chan Report, chan Junction) {
 					break
 				}
 				defer conn.Close()
-				env := Envelope{
-					MessageType: AskForJunction,
+				env := common.Envelope{
+					MessageType: common.AskForJunction,
 					Payload:     j}
 
-				gob.Register(Junction{})
+				gob.Register(common.Junction{})
 				enc := gob.NewEncoder(conn)
 				err = enc.Encode(env)
 				if err != nil {
@@ -53,14 +55,14 @@ func Connect() (chan Report, chan Junction) {
 				}
 
 				dec := gob.NewDecoder(conn)
-				env = Envelope{}
+				env = common.Envelope{}
 				err = dec.Decode(&env)
 				if err != nil {
 					fmt.Println(err)
 					return
 				}
 				fmt.Println("Received response with junction", env)
-				junctionChan <- Junction{}
+				junctionChan <- common.Junction{}
 			}
 		}
 	}()
