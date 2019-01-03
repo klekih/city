@@ -5,7 +5,7 @@ go:
 
 script:
   - cd cityactor
-  - "./cityactor/build.sh"
+  - "./build.sh"
 
 notifications:
     email:
