@@ -1,20 +1,22 @@
-package citysim
+package main
 
 import (
 	"encoding/gob"
 	"fmt"
 	"net"
+
+	"github.com/klekih/city/common"
 )
 
 func comm(c net.Conn) {
 	defer c.Close()
 	defer fmt.Println("Connection closed")
 
-	gob.Register(Report{})
-	gob.Register(Junction{})
+	gob.Register(common.Report{})
+	gob.Register(common.Junction{})
 
 	dec := gob.NewDecoder(c)
-	env := new(Envelope)
+	env := new(common.Envelope)
 	err := dec.Decode(&env)
 	if err != nil {
 		fmt.Println("Error on decoding", err)
@@ -22,12 +24,12 @@ func comm(c net.Conn) {
 	}
 
 	switch env.MessageType {
-	case SendReport:
+	case common.SendReport:
 		fmt.Println("Received report", env)
-	case AskForJunction:
+	case common.AskForJunction:
 		fmt.Println("Received query on junction", env)
 		enc := gob.NewEncoder(c)
-		err := enc.Encode(Envelope{MessageType: RespondWithJunction})
+		err := enc.Encode(common.Envelope{MessageType: common.RespondWithJunction})
 		if err != nil {
 			fmt.Println("Error on decoding", err)
 			return

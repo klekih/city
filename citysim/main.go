@@ -1,4 +1,4 @@
-package citysim
+package main
 
 import (
 	"fmt"
