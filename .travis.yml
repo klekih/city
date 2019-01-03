@@ -1,0 +1,12 @@
+language: go
+
+go:
+  - tip
+
+script:
+  - "./cityactor/build.sh"
+
+notifications:
+    email:
+      on_success: always
+      on_failure: always
