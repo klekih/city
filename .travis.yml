@@ -4,6 +4,7 @@ go:
   - tip
 
 script:
+  - cd cityactor
   - "./cityactor/build.sh"
 
 notifications:
