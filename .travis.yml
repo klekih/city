@@ -7,6 +7,10 @@ script:
   - cd cityactor
   - "./build.sh"
 
+script:
+  - cd citysim
+  - "./build.sh"
+
 notifications:
     email:
       on_success: always
