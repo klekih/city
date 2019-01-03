@@ -6,9 +6,7 @@ go:
 script:
   - cd cityactor
   - "./build.sh"
-
-script:
-  - cd citysim
+  - cd ../citysim
   - "./build.sh"
 
 notifications:
