@@ -12,5 +12,5 @@
 *.out
 
 # linux binaries
-debug
-city
+citysim/citysim
+cityactor/cityactor
