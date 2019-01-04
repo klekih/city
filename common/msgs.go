@@ -6,28 +6,23 @@ type CityInterface interface {
 	RetrieveJunction()
 }
 
-// Location aggregates the information about the place
-// where an actor is at a certain moment in time
-type Location struct {
+// Report is the base type for reporting status and vectors
+// to a city entity
+type Report struct {
 	CurrentLine [][]float64
 }
 
 // WithCurrentLine adds a line to the location
-func (l Location) WithCurrentLine(line [][]float64) Location {
-	l.CurrentLine = line
-	return l
-}
-
-// Report is the base type for reporting status and vectors
-// to a city entity
-type Report struct {
-	Loc Location
+func (r Report) WithCurrentLine(line [][]float64) Report {
+	r.CurrentLine = line
+	return r
 }
 
 // Junction is the message send back from the city with information
 // about a junction
 type Junction struct {
-	Loc Location
+	Long float64
+	Lat  float64
 }
 
 const (
