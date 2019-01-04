@@ -9,8 +9,13 @@ type CityInterface interface {
 // Location aggregates the information about the place
 // where an actor is at a certain moment in time
 type Location struct {
-	Long float64
-	Lat  float64
+	CurrentLine [][]float64
+}
+
+// WithCurrentLine adds a line to the location
+func (l Location) WithCurrentLine(line [][]float64) Location {
+	l.CurrentLine = line
+	return l
 }
 
 // Report is the base type for reporting status and vectors
