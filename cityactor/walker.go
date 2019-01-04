@@ -96,11 +96,20 @@ func advance(city *common.CityInterface, chanReport chan common.Report, junction
 			currentPosInInstruction, "of", distance)
 	}
 
-	fmt.Println("Report to the city")
-	chanReport <- common.Report{
-		Loc: common.Location{
-			Long: 10.0,
-			Lat:  20.0}}
+	// Now get the corresponding line string to report to the city
+	// the path we're going on
 
+	firstPointIndex := currentInstruction.Interval[0]
+	secondPointIndex := currentInstruction.Interval[1]
+
+	line := myRoute.Paths[0].Points.Coordinates[firstPointIndex:secondPointIndex]
+
+	fmt.Println("Report to the city")
+
+	report := common.Report{}.WithCurrentLine(line)
+
+	chanReport <- report
+
+	fmt.Println("Ask for next junction")
 	junctionChan <- common.Junction{}
 }
