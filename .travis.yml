@@ -5,9 +5,9 @@ go:
 
 script:
   - cd cityactor
-  - "./build.sh"
+  - go build
   - cd ../citysim
-  - "./build.sh"
+  - bo build
 
 notifications:
     email:
