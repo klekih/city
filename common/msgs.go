@@ -3,7 +3,7 @@ package common
 // CityInterface is a representation to a city entity
 type CityInterface interface {
 	SendVector()
-	RetrieveJunction()
+	RetrieveLineData()
 }
 
 // Report is the base type for reporting status and vectors
@@ -18,11 +18,10 @@ func (r Report) WithCurrentLine(line [][]float64) Report {
 	return r
 }
 
-// Junction is the message send back from the city with information
-// about a junction
-type Junction struct {
-	Long float64
-	Lat  float64
+// Line is the message send back and forth: from actor to city
+// and from the city with information about a line
+type Line struct {
+	Coordinates [][]float64
 }
 
 const (
@@ -30,13 +29,13 @@ const (
 	// indicating its status (e.g. location).
 	SendReport = iota
 
-	// AskForJunction is a message passed from an actor to the city.
+	// AskForLine is a message passed from an actor to the city.
 	// A response is awaited.
-	AskForJunction = iota
+	AskForLine = iota
 
-	// RespondWithJunction is a message passed from the city to
-	// an actor and it contains junction data.
-	RespondWithJunction = iota
+	// RespondWithLine is a message passed from the city to
+	// an actor and it contains line data.
+	RespondWithLine = iota
 )
 
 // Envelope is the container for different messages sent back

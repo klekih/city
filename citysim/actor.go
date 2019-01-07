@@ -13,7 +13,7 @@ func comm(c net.Conn) {
 	defer fmt.Println("Connection closed")
 
 	gob.Register(common.Report{})
-	gob.Register(common.Junction{})
+	gob.Register(common.Line{})
 
 	dec := gob.NewDecoder(c)
 	env := new(common.Envelope)
@@ -26,10 +26,10 @@ func comm(c net.Conn) {
 	switch env.MessageType {
 	case common.SendReport:
 		fmt.Println("Received report", env)
-	case common.AskForJunction:
-		fmt.Println("Received query on junction", env)
+	case common.AskForLine:
+		fmt.Println("Received query on line", env)
 		enc := gob.NewEncoder(c)
-		err := enc.Encode(common.Envelope{MessageType: common.RespondWithJunction})
+		err := enc.Encode(common.Envelope{MessageType: common.RespondWithLine})
 		if err != nil {
 			fmt.Println("Error on decoding", err)
 			return
