@@ -39,7 +39,7 @@ func checkLineIsSubline(subLine [][]float64, line [][]float64) bool {
 		return false
 	}
 
-	for i := 0; i < len(line); i++ {
+	for i := 0; i < len(line)-len(subLine)+1; i++ {
 		seqAreEq := areSequencesEqual(subLine, line[i:i+len(subLine)])
 		if seqAreEq {
 			return true
