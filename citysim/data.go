@@ -4,7 +4,7 @@ import (
 	"container/list"
 )
 
-var topLevelList list.List
+var topLevelList *list.List
 
 type _LineData struct {
 	line   [][]float64
@@ -12,71 +12,92 @@ type _LineData struct {
 }
 
 func getLineData(line [][]float64) int {
-	return 0
+	tll := findSubList(line)
+
+	if tll == nil {
+		return 0
+	}
+
+	result := lineOneIsSubline
+	aggregateValue := 0
+
+	for elem := tll.Front(); result == lineOneIsSubline && elem != nil; elem = elem.Next() {
+		lineFromList := elem.Value.(_LineData)
+		result = computeLinesRelation(line, lineFromList.line)
+		aggregateValue += lineFromList.actors
+	}
+
+	return aggregateValue
 }
 
 func deliverLineData(line [][]float64) {
 
-	fList, fElem := findListAndElement(line)
+	if topLevelList == nil {
+		topLevelList = list.New()
+	}
 
-	newLineData := _LineData{
-		line:   line,
-		actors: 1}
-
-	if fList == nil {
+	subList := findSubList(line)
+	if subList == nil {
+		// 1. create new sub-list and push it into the top level list
+		newLineData := _LineData{
+			line:   line,
+			actors: 1}
 		newList := list.New()
 		topLevelList.PushFront(newList)
+		// 2. push new line element into the new sub-list
 		newList.PushFront(newLineData)
+
 	} else {
-		if fElem == nil {
-			fList.PushFront(newLineData)
-		}
-		fList.InsertAfter(newLineData, fElem)
+		// there is a sub-list where the new line element fits into
+		// so the element is inserted into its correct position
+		addLineInSublist(subList, line)
 	}
 }
 
-func findListAndElement(line [][]float64) (*list.List, *list.Element) {
+func findSubList(line [][]float64) *list.List {
 
-	for subListE := topLevelList.Front(); subListE != nil; subListE = subListE.Next() {
-
-		list := subListE.Value.(*list.List)
-		elem := findElement(list, line)
-
-		if elem != nil {
-			return list, elem
-		}
+	if topLevelList == nil {
+		return nil
 	}
 
-	return nil, nil
-}
-
-func findElement(list *list.List, line [][]float64) *list.Element {
-
-	for lineDataE := list.Front(); lineDataE != nil; lineDataE = lineDataE.Next() {
-
-		lineData := lineDataE.Value.(_LineData)
-		linesResult := computeLinesRelation(line, lineData.line)
-
-		switch linesResult {
-
-		case lineOneIsSubline:
-			nextLineDataE := lineDataE.Next()
-			if nextLineDataE == nil {
-				continue
-			}
-			nextLineData := nextLineDataE.Value.(_LineData)
-			nextLinesResult := computeLinesRelation(line, nextLineData.line)
-			if nextLinesResult == lineTwoIsSubline {
-				return lineDataE
-			}
-
-		case lineTwoIsSubline:
-
-		case identicalLines:
-
-		case noIntersect:
+	for subListElem := topLevelList.Front(); subListElem != nil; subListElem = subListElem.Next() {
+		sublist := subListElem.Value.(*list.List)
+		firstLine := sublist.Front().Value.(_LineData)
+		linesResult := computeLinesRelation(line, firstLine.line)
+		if linesResult == lineOneIsSubline || linesResult == identicalLines {
+			return sublist
 		}
 	}
-
 	return nil
+}
+
+func addLineInSublist(list *list.List, line [][]float64) {
+
+	for elem := list.Front(); elem != nil; elem = elem.Next() {
+		lineFromList := elem.Value.(_LineData)
+		relationResult := computeLinesRelation(line, lineFromList.line)
+
+		switch relationResult {
+		case lineTwoIsSubline:
+			{
+				newLineData := _LineData{
+					line:   line,
+					actors: 1}
+				list.InsertBefore(newLineData, elem)
+				return
+			}
+		case lineOneIsSubline:
+			{
+				newLineData := _LineData{
+					line:   line,
+					actors: 1}
+				list.InsertAfter(newLineData, elem)
+				return
+			}
+		case identicalLines:
+			{
+				lineFromList.actors++
+			}
+		}
+	}
 }

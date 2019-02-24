@@ -13,6 +13,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	go startWebSocket()
 	defer l.Close()
 	for {
 		conn, err := l.Accept()
