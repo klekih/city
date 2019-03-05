@@ -11,6 +11,12 @@ type _LineData struct {
 	actors int
 }
 
+func initData() {
+	if topLevelList != nil {
+		topLevelList.Init()
+	}
+}
+
 func getLineData(line [][]float64) int {
 	tll := findSubList(line)
 
@@ -21,10 +27,12 @@ func getLineData(line [][]float64) int {
 	result := lineOneIsSubline
 	aggregateValue := 0
 
-	for elem := tll.Front(); result == lineOneIsSubline && elem != nil; elem = elem.Next() {
+	for elem := tll.Front(); (result == lineOneIsSubline || result == identicalLines) && elem != nil; elem = elem.Next() {
 		lineFromList := elem.Value.(_LineData)
 		result = computeLinesRelation(line, lineFromList.line)
-		aggregateValue += lineFromList.actors
+		if result == lineOneIsSubline || result == identicalLines {
+			aggregateValue += lineFromList.actors
+		}
 	}
 
 	return aggregateValue
@@ -54,6 +62,21 @@ func deliverLineData(line [][]float64) {
 	}
 }
 
+func deleteLineData(line [][]float64) {
+	if topLevelList == nil {
+		return
+	}
+
+	subList := findSubList(line)
+	if subList == nil {
+		return
+	}
+
+	// there is a sub-list where the new line element fits into
+	// so the element is inserted into its correct position
+	addLineInSublist(subList, line)
+}
+
 func findSubList(line [][]float64) *list.List {
 
 	if topLevelList == nil {
@@ -64,7 +87,7 @@ func findSubList(line [][]float64) *list.List {
 		sublist := subListElem.Value.(*list.List)
 		firstLine := sublist.Front().Value.(_LineData)
 		linesResult := computeLinesRelation(line, firstLine.line)
-		if linesResult == lineOneIsSubline || linesResult == identicalLines {
+		if linesResult != noIntersect {
 			return sublist
 		}
 	}
@@ -97,6 +120,7 @@ func addLineInSublist(list *list.List, line [][]float64) {
 		case identicalLines:
 			{
 				lineFromList.actors++
+				elem.Value = lineFromList
 			}
 		}
 	}
