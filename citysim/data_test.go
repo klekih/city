@@ -159,9 +159,7 @@ func TestSubListWithTwoDifferentLines(t *testing.T) {
 	}
 }
 
-// This is a test which shows the drastic limitations of using
-// only linked lists for this. We need a tree here.
-func NoTestSubListWithThreeDifferentLines(t *testing.T) {
+func TestSubListWithThreeDifferentLines(t *testing.T) {
 	initData()
 	line1 := [][]float64{
 		{1, 2},
@@ -297,6 +295,25 @@ func TestSubListWithThreeDifferentLines_4(t *testing.T) {
 
 	data = getLineData(line3)
 	if data != 1 {
+		t.Fail()
+	}
+}
+
+func TestWithLineDeletion(t *testing.T) {
+	initData()
+	line := [][]float64{
+		{1, 2},
+		{3, 4}}
+
+	deliverLineData(line)
+	data := getLineData(line)
+	if data != 1 {
+		t.Fail()
+	}
+
+	deleteLineData(line)
+	data = getLineData(line)
+	if data != 0 {
 		t.Fail()
 	}
 }
