@@ -19,7 +19,7 @@ func Connect() (chan common.Report, chan common.Line) {
 		for {
 			select {
 			case r := <-sendReportChan:
-				conn, err := net.Dial("tcp", "localhost:7450")
+				conn, err := net.Dial("tcp", "citysim:7450")
 				if err != nil {
 					fmt.Println("Error on dialing", err)
 					break
@@ -37,7 +37,7 @@ func Connect() (chan common.Report, chan common.Line) {
 					fmt.Println("Error on sending data", err)
 				}
 			case j := <-lineChan:
-				conn, err := net.Dial("tcp", "localhost:7450")
+				conn, err := net.Dial("tcp", "citysim:7450")
 				if err != nil {
 					fmt.Println("Error on dialing", err)
 					break

@@ -2,7 +2,10 @@ FROM golang
 
 ADD . /go/src/github.com/klekih/citysim
 
+RUN go get -u github.com/gorilla/websocket
+RUN go get -u github.com/klekih/city/common
+
 RUN go install github.com/klekih/citysim
 
-ENTRYPOINT /go/bin/cityactor
+ENTRYPOINT /go/bin/citysim
 

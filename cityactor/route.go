@@ -90,7 +90,7 @@ func generateRandomRoute(config *Config) (rt *Route, err error) {
 	p2CoordLat = first.lat + r.Float64()*(second.lat-first.lat)
 
 	link := fmt.Sprintf("%s%f%s%f%s%f%s%f%s",
-		"http://localhost:8989/route?point=",
+		"http://graphhopper:8989/route?point=",
 		p1CoordLong,
 		"%2C",
 		p1CoordLat,
@@ -108,6 +108,8 @@ func generateRandomRoute(config *Config) (rt *Route, err error) {
 
 	for (retries > 0) && (err != nil) {
 		fmt.Println("No valid link for getting route, retrying", err)
+
+		time.Sleep(3000 * time.Millisecond)
 
 		resp, err = http.Get(link)
 
