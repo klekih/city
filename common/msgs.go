@@ -19,6 +19,12 @@ func (r Report) WithCurrentLine(line [][]float64) Report {
 	return r
 }
 
+// WithReportDetails adds details to a report
+func (r Report) WithReportDetails(reportDetail int) Report {
+	r.ReportDetail = reportDetail
+	return r
+}
+
 // Line is the message send back and forth: from actor to city
 // and from the city with information about a line
 type Line struct {
