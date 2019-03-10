@@ -1,0 +1,8 @@
+FROM golang
+
+ADD . /go/src/github.com/klekih/citysim
+
+RUN go install github.com/klekih/citysim
+
+ENTRYPOINT /go/bin/cityactor
+
