@@ -89,6 +89,17 @@ func advance(city *common.CityInterface, chanReport chan common.Report, lineChan
 	currentPosInInstruction += averageSpeed
 
 	if currentPosInInstruction >= distance {
+
+		firstPointIndex := currentInstruction.Interval[0]
+		secondPointIndex := currentInstruction.Interval[1]
+		lineToExit := myRoute.Paths[0].Points.Coordinates[firstPointIndex:secondPointIndex]
+
+		report := common.Report{}.
+			WithCurrentLine(lineToExit).
+			WithReportDetails(common.ReportOffFromLine)
+
+		chanReport <- report
+
 		currentInstructionIndex++
 		currentPosInInstruction = 0
 	} else {
@@ -102,11 +113,13 @@ func advance(city *common.CityInterface, chanReport chan common.Report, lineChan
 	firstPointIndex := currentInstruction.Interval[0]
 	secondPointIndex := currentInstruction.Interval[1]
 
-	line := myRoute.Paths[0].Points.Coordinates[firstPointIndex:secondPointIndex]
+	currentLine := myRoute.Paths[0].Points.Coordinates[firstPointIndex:secondPointIndex]
 
 	fmt.Println("Report to the city")
 
-	report := common.Report{}.WithCurrentLine(line)
+	report := common.Report{}.
+		WithCurrentLine(currentLine).
+		WithReportDetails(common.ReportOnTheLine)
 
 	chanReport <- report
 
