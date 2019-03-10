@@ -27,7 +27,11 @@ func comm(c net.Conn) {
 	case common.SendReport:
 		fmt.Println("Received report", env)
 		payload := env.Payload.(common.Report)
-		deliverLineData(payload.CurrentLine)
+		if payload.ReportDetail == common.ReportOnTheLine {
+			deliverLineData(payload.CurrentLine)
+		} else {
+			deleteLineData(payload.CurrentLine)
+		}
 	case common.AskForLine:
 		fmt.Println("Received query on line", env)
 		enc := gob.NewEncoder(c)
