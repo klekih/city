@@ -9,7 +9,8 @@ type CityInterface interface {
 // Report is the base type for reporting status and vectors
 // to a city entity
 type Report struct {
-	CurrentLine [][]float64
+	CurrentLine  [][]float64
+	ReportDetail int
 }
 
 // WithCurrentLine adds a line to the location
@@ -23,6 +24,19 @@ func (r Report) WithCurrentLine(line [][]float64) Report {
 type Line struct {
 	Coordinates [][]float64
 }
+
+const (
+
+	// ReportOnTheLine is the report sent by one agent to
+	// notify the city that he is currently advancing
+	// through one line.
+	ReportOnTheLine = iota
+
+	// ReportOffFromLine is the report sent by one agent to
+	// notify the city that he has finished advancing through
+	// one line and has departed from it.
+	ReportOffFromLine = iota
+)
 
 const (
 	// SendReport is a message passed from an actor to the city
