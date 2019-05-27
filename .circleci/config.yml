@@ -18,10 +18,10 @@ jobs:
       - run: 
           working_directory: /go/src/github.com/klekih/city/cityactor
           command: go build
-          - run: 
+      - run: 
           working_directory: /go/src/github.com/klekih/city/cityactor
           command: go test
-          
+
       - run: 
           working_directory: /go/src/github.com/klekih/city/city
           command: go get -v -t -d
