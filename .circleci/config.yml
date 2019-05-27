@@ -18,9 +18,10 @@ jobs:
 
       # specify any bash command here prefixed with `run: `
       # - run: go get -v -t -d ./...
-      - run: cd cityactor
+      - working_directory: /go/src/github.com/klekih/city/cityactor
       - run: go build
-      - run: cd ../citysim
+      - run: go test
+      - working_directory: /go/src/github.com/klekih/city/city
       - run: go build
       - run: go test -v ./...
       
