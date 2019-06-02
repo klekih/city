@@ -33,7 +33,7 @@ jobs:
           command: go test
 
       - setup_remote_docker
-      - run: docker login -u $DOCKER_USER $DOCKER_PASS
+      - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
       - run: docker build -t tomabecea/cityactor:latest ./cityactor/dockerfile
       - run: docker push tomabecea/cityactor:latest
       - run: docker build -t tomabecea/citysim:latest ./citysim/dockerfile
