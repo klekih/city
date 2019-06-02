@@ -34,7 +34,7 @@ jobs:
 
       - setup_remote_docker
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
-      - run: docker build -t tomabecea/cityactor:latest ./cityactor/dockerfile
+      - run: docker build -t tomabecea/cityactor:latest ./cityactor/
       - run: docker push tomabecea/cityactor:latest
-      - run: docker build -t tomabecea/citysim:latest ./citysim/dockerfile
+      - run: docker build -t tomabecea/citysim:latest ./citysim/
       - run: docker push tomabecea/citysim:latest
