@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	fmt.Println("Hello, world. I'm the city.")
+	fmt.Println("Hello, world. I'm the city simulator.")
 
 	l, err := net.Listen("tcp", ":7450")
 	if err != nil {
