@@ -33,13 +33,8 @@ jobs:
           command: go test
 
       - setup_remote_docker
-      - run:
-          working_directory: /go/src/github.com/klekih/city/cityactor
-          command: docker build -t tomabecea/cityactor:latest .
-          command: docker login -u $DOCKER_USER $DOCKER_PASS
-          command: docker push tomabecea/cityactor:latest
-      - run:
-          working_directory: /go/src/github.com/klekih/city/citysim
-          command: docker build -t tomabecea/citysim:latest .
-          command: docker login -u $DOCKER_USER $DOCKER_PASS
-          command: docker push tomabecea/citysim:latest
+      - run: docker login -u $DOCKER_USER $DOCKER_PASS
+      - run: docker build -t tomabecea/cityactor:latest ./cityactor/dockerfile
+      - run: docker push tomabecea/cityactor:latest
+      - run: docker build -t tomabecea/citysim:latest ./citysim/dockerfile
+      - run: docker push tomabecea/citysim:latest
