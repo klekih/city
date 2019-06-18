@@ -115,14 +115,11 @@ func advance(city *common.CityInterface, chanReport chan common.Report, lineChan
 
 	currentLine := myRoute.Paths[0].Points.Coordinates[firstPointIndex:secondPointIndex]
 
-	fmt.Println("Report to the city")
-
 	report := common.Report{}.
 		WithCurrentLine(currentLine).
 		WithReportDetails(common.ReportOnTheLine)
 
 	chanReport <- report
 
-	fmt.Println("Ask for data about current line")
 	lineChan <- common.Line{}
 }

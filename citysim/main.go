@@ -21,7 +21,6 @@ func main() {
 			log.Fatal(err)
 		}
 
-		fmt.Println("Connection accepted")
 		go comm(conn)
 	}
 }

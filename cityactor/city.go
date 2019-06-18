@@ -61,7 +61,6 @@ func Connect() (chan common.Report, chan common.Line) {
 					fmt.Println(err)
 					return
 				}
-				fmt.Println("Received response with line", env)
 				lineChan <- common.Line{}
 			}
 		}

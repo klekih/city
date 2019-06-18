@@ -10,7 +10,6 @@ import (
 
 func comm(c net.Conn) {
 	defer c.Close()
-	defer fmt.Println("Connection closed")
 
 	gob.Register(common.Report{})
 	gob.Register(common.Line{})
@@ -25,7 +24,6 @@ func comm(c net.Conn) {
 
 	switch env.MessageType {
 	case common.SendReport:
-		fmt.Println("Received report", env)
 		payload := env.Payload.(common.Report)
 		if payload.ReportDetail == common.ReportOnTheLine {
 			deliverLineData(payload.CurrentLine)
@@ -33,7 +31,6 @@ func comm(c net.Conn) {
 			deleteLineData(payload.CurrentLine)
 		}
 	case common.AskForLine:
-		fmt.Println("Received query on line", env)
 		enc := gob.NewEncoder(c)
 		err := enc.Encode(common.Envelope{MessageType: common.RespondWithLine})
 		if err != nil {
