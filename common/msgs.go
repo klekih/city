@@ -29,11 +29,18 @@ func (r Report) WithReportDetails(reportDetail int) Report {
 // and from the city with information about a line
 type LineInfo struct {
 	Coordinates [][]float64
+	Density int
 }
 
 // WithLine adds a line to a line info request
 func (l LineInfo) WithLine(line [][]float64) LineInfo {
 	l.Coordinates = line
+	return l
+}
+
+// WithDensity adds a density to a line info response
+func (l LineInfo) WithDensity(density int) LineInfo {
+	l.Density = density
 	return l
 }
 
