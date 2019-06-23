@@ -64,7 +64,7 @@ func getRoute(config *Config) *Route {
 	return route
 }
 
-func advance(city *common.CityInterface, chanReport chan common.Report, lineChan chan common.Line) {
+func advance(city *common.CityInterface, chanReport chan common.Report, lineChan chan common.LineInfo) {
 
 	if myRoute == nil {
 		panic("No route to go on")
@@ -120,6 +120,7 @@ func advance(city *common.CityInterface, chanReport chan common.Report, lineChan
 		WithReportDetails(common.ReportOnTheLine)
 
 	chanReport <- report
-
-	lineChan <- common.Line{}
+	
+	lineChan <- common.LineInfo{}.
+		WithLine(currentLine)
 }

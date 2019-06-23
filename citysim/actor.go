@@ -12,7 +12,7 @@ func comm(c net.Conn) {
 	defer c.Close()
 
 	gob.Register(common.Report{})
-	gob.Register(common.Line{})
+	gob.Register(common.LineInfo{})
 
 	dec := gob.NewDecoder(c)
 	env := new(common.Envelope)
@@ -33,6 +33,8 @@ func comm(c net.Conn) {
 	case common.AskForLine:
 		enc := gob.NewEncoder(c)
 		err := enc.Encode(common.Envelope{MessageType: common.RespondWithLine})
+		payload := env.Payload.(common.LineInfo)
+		fmt.Println("Recieved ask for line", payload)
 		if err != nil {
 			fmt.Println("Error on decoding", err)
 			return

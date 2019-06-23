@@ -10,10 +10,10 @@ import (
 
 // Connect is the typical method used for connecting to
 // a city.
-func Connect() (chan common.Report, chan common.Line) {
+func Connect() (chan common.Report, chan common.LineInfo) {
 
 	var sendReportChan = make(chan common.Report)
-	var lineChan = make(chan common.Line)
+	var lineChan = make(chan common.LineInfo)
 
 	go func() {
 		for {
@@ -36,7 +36,7 @@ func Connect() (chan common.Report, chan common.Line) {
 				if err != nil {
 					fmt.Println("Error on sending data", err)
 				}
-			case j := <-lineChan:
+			case l := <-lineChan:
 				conn, err := net.Dial("tcp", "citysim:7450")
 				if err != nil {
 					fmt.Println("Error on dialing", err)
@@ -45,9 +45,9 @@ func Connect() (chan common.Report, chan common.Line) {
 				defer conn.Close()
 				env := common.Envelope{
 					MessageType: common.AskForLine,
-					Payload:     j}
+					Payload:     l}
 
-				gob.Register(common.Line{})
+				gob.Register(common.LineInfo{})
 				enc := gob.NewEncoder(conn)
 				err = enc.Encode(env)
 				if err != nil {
@@ -61,7 +61,7 @@ func Connect() (chan common.Report, chan common.Line) {
 					fmt.Println(err)
 					return
 				}
-				lineChan <- common.Line{}
+				lineChan <- common.LineInfo{}
 			}
 		}
 	}()
