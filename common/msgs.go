@@ -25,10 +25,16 @@ func (r Report) WithReportDetails(reportDetail int) Report {
 	return r
 }
 
-// Line is the message send back and forth: from actor to city
+// LineInfo is the message send back and forth: from actor to city
 // and from the city with information about a line
-type Line struct {
+type LineInfo struct {
 	Coordinates [][]float64
+}
+
+// WithLine adds a line to a line info request
+func (l LineInfo) WithLine(line [][]float64) LineInfo {
+	l.Coordinates = line
+	return l
 }
 
 const (
