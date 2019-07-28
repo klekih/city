@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net"
 
-	"github.com/klekih/city/common"
+	"github.com/tomagb/city/common"
 )
 
 func comm(c net.Conn) {

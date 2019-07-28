@@ -1,11 +1,11 @@
 FROM golang
 
-ADD . /go/src/github.com/klekih/citysim
+ADD . /go/src/github.com/tomagb/citysim
 
 RUN go get -u github.com/gorilla/websocket
-RUN go get -u github.com/klekih/city/common
+RUN go get -u github.com/tomagb/city/common
 
-RUN go install github.com/klekih/citysim
+RUN go install github.com/tomagb/citysim
 
 ENTRYPOINT /go/bin/citysim
 

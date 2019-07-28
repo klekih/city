@@ -8,28 +8,28 @@ jobs:
       # specify the version
       - image: circleci/golang:1.12.5
 
-    working_directory: /go/src/github.com/klekih/city/
+    working_directory: /go/src/github.com/tomagb/city/
     steps:
       - checkout
 
       - run: 
-          working_directory: /go/src/github.com/klekih/city/cityactor
+          working_directory: /go/src/github.com/tomagb/city/cityactor
           command: go get -v -t -d
       - run: 
-          working_directory: /go/src/github.com/klekih/city/cityactor
+          working_directory: /go/src/github.com/tomagb/city/cityactor
           command: go build
       - run: 
-          working_directory: /go/src/github.com/klekih/city/cityactor
+          working_directory: /go/src/github.com/tomagb/city/cityactor
           command: go test
 
       - run: 
-          working_directory: /go/src/github.com/klekih/city/citysim
+          working_directory: /go/src/github.com/tomagb/city/citysim
           command: go get -v -t -d
       - run: 
-          working_directory: /go/src/github.com/klekih/city/citysim
+          working_directory: /go/src/github.com/tomagb/city/citysim
           command: go build
       - run: 
-          working_directory: /go/src/github.com/klekih/city/citysim
+          working_directory: /go/src/github.com/tomagb/city/citysim
           command: go test
 
       - setup_remote_docker

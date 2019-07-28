@@ -5,7 +5,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/klekih/city/common"
+	"github.com/tomagb/city/common"
 )
 
 var ticker *time.Ticker

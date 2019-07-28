@@ -1,6 +1,6 @@
 github.com/gorilla/websocket v1.4.0 h1:WDFjx/TMzVgy9VdMMQi2K2Emtwi2QcUQsztZ/zLaH/Q=
 github.com/gorilla/websocket v1.4.0/go.mod h1:E7qHFY5m1UJ88s3WnNqhKjPHQ0heANvMoAMk2YaljkQ=
-github.com/klekih/city v0.0.0-20190618182320-59ab9439b4b0 h1:cGLC4Bzhgqzn3MIPkReB6THMuJUW6803QZwt4YOUpKM=
-github.com/klekih/city v0.0.0-20190618182320-59ab9439b4b0/go.mod h1:wkyfhlPk7Ys/n+/sezV+siDB0zzrdXL+Z9lT/y9uc2c=
-github.com/klekih/city v0.0.0-20190623154015-50014d142c2a h1:LRwF5XITyHjR//2YQU+LgmrDL8ZXrsObVoXHbIWarmU=
-github.com/klekih/city v0.0.0-20190623154015-50014d142c2a/go.mod h1:wkyfhlPk7Ys/n+/sezV+siDB0zzrdXL+Z9lT/y9uc2c=
+github.com/tomagb/city v0.0.0-20190618182320-59ab9439b4b0 h1:cGLC4Bzhgqzn3MIPkReB6THMuJUW6803QZwt4YOUpKM=
+github.com/tomagb/city v0.0.0-20190618182320-59ab9439b4b0/go.mod h1:wkyfhlPk7Ys/n+/sezV+siDB0zzrdXL+Z9lT/y9uc2c=
+github.com/tomagb/city v0.0.0-20190623154015-50014d142c2a h1:LRwF5XITyHjR//2YQU+LgmrDL8ZXrsObVoXHbIWarmU=
+github.com/tomagb/city v0.0.0-20190623154015-50014d142c2a/go.mod h1:wkyfhlPk7Ys/n+/sezV+siDB0zzrdXL+Z9lT/y9uc2c=

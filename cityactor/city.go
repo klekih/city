@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net"
 
-	"github.com/klekih/city/common"
+	"github.com/tomagb/city/common"
 )
 
 // Connect is the typical method used for connecting to
