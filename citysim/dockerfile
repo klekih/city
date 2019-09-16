@@ -1,11 +1,11 @@
-FROM golang
+FROM golang:1.13
 
-ADD . /go/src/github.com/tomagb/citysim
+WORKDIR /app/
 
-RUN go get -u github.com/gorilla/websocket
-RUN go get -u github.com/tomagb/city/common
+ADD . .
 
-RUN go install github.com/tomagb/citysim
+RUN go get -u
 
-ENTRYPOINT /go/bin/citysim
+RUN go build
 
+ENTRYPOINT /app/citysim
