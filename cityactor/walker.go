@@ -70,10 +70,19 @@ func advance(city *common.CityInterface, chanReport chan common.Report, lineChan
 		panic("No route to go on")
 	}
 
-	// Find out which step from instruction are we on.
-	// Begin with first if needed
 	if currentInstructionIndex == -1 {
 		currentInstructionIndex = 1
+
+		currentInstruction := myRoute.Paths[0].Instructions[currentInstructionIndex]
+		firstPointIndex := currentInstruction.Interval[0]
+		secondPointIndex := currentInstruction.Interval[1]
+		lineToEnter := myRoute.Paths[0].Points.Coordinates[firstPointIndex:secondPointIndex]
+
+		enterReport := common.Report{}.
+			WithCurrentLine(lineToEnter).
+			WithReportDetails(common.ReportOnTheLine)
+
+		chanReport <- enterReport
 	}
 
 	// Check if all instructions have been passed.
@@ -90,37 +99,37 @@ func advance(city *common.CityInterface, chanReport chan common.Report, lineChan
 
 	if currentPosInInstruction >= distance {
 
-		firstPointIndex := currentInstruction.Interval[0]
-		secondPointIndex := currentInstruction.Interval[1]
-		lineToExit := myRoute.Paths[0].Points.Coordinates[firstPointIndex:secondPointIndex]
+		offFirstPointIndex := currentInstruction.Interval[0]
+		offSecondPointIndex := currentInstruction.Interval[1]
+		lineToExit := myRoute.Paths[0].Points.Coordinates[offFirstPointIndex:offSecondPointIndex]
 
-		report := common.Report{}.
+		exitReport := common.Report{}.
 			WithCurrentLine(lineToExit).
 			WithReportDetails(common.ReportOffFromLine)
-
-		chanReport <- report
+		chanReport <- exitReport
 
 		currentInstructionIndex++
+		currentInstruction = myRoute.Paths[0].Instructions[currentInstructionIndex]
+		onFirstPointIndex := currentInstruction.Interval[0]
+		onSecondPointIndex := currentInstruction.Interval[1]
+		lineToEnter := myRoute.Paths[0].Points.Coordinates[onFirstPointIndex:onSecondPointIndex]
+
+		enterReport := common.Report{}.
+			WithCurrentLine(lineToEnter).
+			WithReportDetails(common.ReportOnTheLine)
+		chanReport <- enterReport
+
 		currentPosInInstruction = 0
 	} else {
 		fmt.Println("On", currentInstruction.StreetName, ":",
 			currentPosInInstruction, "of", distance)
 	}
 
-	// Now get the corresponding line string to report to the city
-	// the path we're going on
-
 	firstPointIndex := currentInstruction.Interval[0]
 	secondPointIndex := currentInstruction.Interval[1]
 
 	currentLine := myRoute.Paths[0].Points.Coordinates[firstPointIndex:secondPointIndex]
 
-	report := common.Report{}.
-		WithCurrentLine(currentLine).
-		WithReportDetails(common.ReportOnTheLine)
-
-	chanReport <- report
-	
 	lineChan <- common.LineInfo{}.
 		WithLine(currentLine)
 }

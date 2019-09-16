@@ -12,16 +12,14 @@ type _LineData struct {
 }
 
 func initData() {
-	if topLevelList != nil {
-		topLevelList.Init()
+	if topLevelList == nil {
+		topLevelList = list.New()
 	}
 }
 
 func deliverLineData(line [][]float64) {
 
-	if topLevelList == nil {
-		topLevelList = list.New()
-	}
+	initData()
 
 	for elem := topLevelList.Front(); elem != nil; elem = elem.Next() {
 		elemLine := elem.Value.(_LineData)
@@ -40,6 +38,10 @@ func deliverLineData(line [][]float64) {
 
 func getLineData(line [][]float64) int {
 
+	if topLevelList == nil {
+		return 0
+	}
+
 	totalActors := 0
 
 	for elem := topLevelList.Front(); elem != nil; elem = elem.Next() {
@@ -57,6 +59,11 @@ func getLineData(line [][]float64) int {
 }
 
 func deleteLineData(line [][]float64) {
+
+	if topLevelList == nil {
+		return
+	}
+
 	for elem := topLevelList.Front(); elem != nil; elem = elem.Next() {
 		elemLine := elem.Value.(_LineData)
 		result := computeLinesRelation(line, elemLine.line)

@@ -27,16 +27,26 @@ func comm(c net.Conn) {
 		payload := env.Payload.(common.Report)
 		if payload.ReportDetail == common.ReportOnTheLine {
 			deliverLineData(payload.CurrentLine)
+			fmt.Println("Delivered on line data", payload)
 		} else {
+			fmt.Println("Delivered off line data", payload)
 			deleteLineData(payload.CurrentLine)
 		}
 	case common.AskForLine:
 		enc := gob.NewEncoder(c)
-		err := enc.Encode(common.Envelope{MessageType: common.RespondWithLine})
 		payload := env.Payload.(common.LineInfo)
-		fmt.Println("Recieved ask for line", payload)
+		fmt.Println("Received ask for line", payload)
 		if err != nil {
 			fmt.Println("Error on decoding", err)
+			return
+		}
+
+		data := getLineData(payload.Coordinates)
+		payloadBack := common.LineInfo{}.WithLine(payload.Coordinates).WithDensity(data)
+		fmt.Println("Data sent back: ", data)
+		err := enc.Encode(common.Envelope{MessageType: common.RespondWithLine, Payload: payloadBack})
+		if err != nil {
+			fmt.Println("Error on encoding", err)
 			return
 		}
 	}
