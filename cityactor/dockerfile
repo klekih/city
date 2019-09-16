@@ -1,12 +1,11 @@
-FROM golang
+FROM golang:1.13
 
-ADD . /go/src/github.com/tomagb/cityactor
+WORKDIR /app/
 
-RUN go get -u github.com/tomagb/city/common
+ADD . .
 
-RUN go install github.com/tomagb/cityactor
+RUN go get -u
 
-WORKDIR /go/src/github.com/tomagb/cityactor
+RUN go build
 
-ENTRYPOINT /go/bin/cityactor
-
+ENTRYPOINT /app/cityactor
