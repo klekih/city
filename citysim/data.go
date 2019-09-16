@@ -17,6 +17,12 @@ func initData() {
 	}
 }
 
+func newData() {
+	if topLevelList != nil {
+		topLevelList.Init()
+	}
+}
+
 func deliverLineData(line [][]float64) {
 
 	initData()

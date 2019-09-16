@@ -3,7 +3,6 @@ package main
 import "testing"
 
 func TestTopLevelListWithOneLine(t *testing.T) {
-	initData()
 	line := [][]float64{
 		{1, 2},
 		{3, 4}}
@@ -18,7 +17,7 @@ func TestTopLevelListWithOneLine(t *testing.T) {
 }
 
 func TestTopLevelWithTwoLines(t *testing.T) {
-	initData()
+	newData()
 	line := [][]float64{
 		{1, 2},
 		{3, 4},
@@ -41,7 +40,7 @@ func TestTopLevelWithTwoLines(t *testing.T) {
 }
 
 func TestTopLevelWithTwoLines_2(t *testing.T) {
-	initData()
+	newData()
 	line := [][]float64{
 		{1, 2},
 		{3, 4}}
@@ -65,7 +64,7 @@ func TestTopLevelWithTwoLines_2(t *testing.T) {
 }
 
 func TestTopLevelWithTwoUnrelatedLines(t *testing.T) {
-	initData()
+	newData()
 	line := [][]float64{
 		{1, 2},
 		{3, 4},
@@ -84,7 +83,7 @@ func TestTopLevelWithTwoUnrelatedLines(t *testing.T) {
 }
 
 func TestSubListWithTwoRelatedLines(t *testing.T) {
-	initData()
+	newData()
 	line := [][]float64{
 		{1, 2},
 		{3, 4},
@@ -109,7 +108,7 @@ func TestSubListWithTwoRelatedLines(t *testing.T) {
 }
 
 func TestSubListWithTwoIdenticalLines(t *testing.T) {
-	initData()
+	newData()
 	line := [][]float64{
 		{1, 2},
 		{3, 4},
@@ -135,7 +134,7 @@ func TestSubListWithTwoIdenticalLines(t *testing.T) {
 }
 
 func TestSubListWithTwoDifferentLines(t *testing.T) {
-	initData()
+	newData()
 	line := [][]float64{
 		{1, 2},
 		{3, 4},
@@ -160,7 +159,7 @@ func TestSubListWithTwoDifferentLines(t *testing.T) {
 }
 
 func TestSubListWithThreeDifferentLines(t *testing.T) {
-	initData()
+	newData()
 	line1 := [][]float64{
 		{1, 2},
 		{3, 4},
@@ -195,7 +194,7 @@ func TestSubListWithThreeDifferentLines(t *testing.T) {
 }
 
 func TestSubListWithThreeDifferentLines_2(t *testing.T) {
-	initData()
+	newData()
 	line1 := [][]float64{
 		{1, 2},
 		{3, 4},
@@ -230,7 +229,7 @@ func TestSubListWithThreeDifferentLines_2(t *testing.T) {
 }
 
 func TestSubListWithThreeDifferentLines_3(t *testing.T) {
-	initData()
+	newData()
 	line1 := [][]float64{
 		{1, 2},
 		{3, 4},
@@ -265,7 +264,7 @@ func TestSubListWithThreeDifferentLines_3(t *testing.T) {
 }
 
 func TestSubListWithThreeDifferentLines_4(t *testing.T) {
-	initData()
+	newData()
 	line1 := [][]float64{
 		{1, 2},
 		{3, 4},
@@ -300,7 +299,7 @@ func TestSubListWithThreeDifferentLines_4(t *testing.T) {
 }
 
 func TestWithLineDeletion(t *testing.T) {
-	initData()
+	newData()
 	line := [][]float64{
 		{1, 2},
 		{3, 4}}
