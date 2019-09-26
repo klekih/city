@@ -61,7 +61,8 @@ func Connect() (chan common.Report, chan common.LineInfo) {
 					fmt.Println(err)
 					return
 				}
-				lineChan <- common.LineInfo{}
+
+				lineChan <- env.Payload.(common.LineInfo)
 			}
 		}
 	}()

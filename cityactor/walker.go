@@ -86,7 +86,7 @@ func advance(city *common.CityInterface, chanReport chan common.Report, lineChan
 	}
 
 	// Check if all instructions have been passed.
-	if len(myRoute.Paths[0].Instructions) <= currentInstructionIndex {
+	if currentInstructionIndex >= len(myRoute.Paths[0].Instructions) {
 		fmt.Println("Route finished")
 		os.Exit(0)
 	}
