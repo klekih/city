@@ -13,7 +13,8 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	go startWebSocket()
+	sendLineDataChan := make(chan LinesData)
+	go startWebSocket(sendLineDataChan)
 	defer l.Close()
 	for {
 		conn, err := l.Accept()

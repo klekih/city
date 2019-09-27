@@ -1,6 +1,8 @@
 package main
 
 import (
+	"bytes"
+	"encoding/json"
 	"flag"
 	"log"
 	"net/http"
@@ -11,11 +13,26 @@ import (
 // LinesData is the response for the front end service
 // with lines and their data.
 type LinesData struct {
+	Coords  [][]float64 `json:"coords"`
+	Density int         `json:"density"`
 }
 
 var addr = flag.String("addr", ":9000", "http service address")
 
 var upgrader = websocket.Upgrader{} // use default options
+
+var sendLineDataChan <-chan LinesData
+
+func waitForIncomingMessages(conn *websocket.Conn) {
+	for {
+		_, message, err := conn.ReadMessage()
+		if err != nil {
+			log.Println("Error reading from front end:", err)
+			break
+		}
+		log.Printf("Received from front end: %s", message)
+	}
+}
 
 func city(w http.ResponseWriter, r *http.Request) {
 	upgrader.CheckOrigin = func(r *http.Request) bool { return true }
@@ -25,22 +42,21 @@ func city(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	defer c.Close()
+	go waitForIncomingMessages(c)
 	for {
-		mt, message, err := c.ReadMessage()
-		if err != nil {
-			log.Println("Error reading from front end:", err)
-			break
-		}
-		log.Printf("Received from front end: %s", message)
-		err = c.WriteMessage(mt, message)
-		if err != nil {
-			log.Println("Write to front end:", err)
-			break
+		select {
+		case data := <-sendLineDataChan:
+			respBytes := new(bytes.Buffer)
+			json.NewEncoder(respBytes).Encode(data)
+			err := c.WriteMessage(-1, respBytes.Bytes())
+			if err != nil {
+				log.Println("Error writing to front end:", err)
+			}
 		}
 	}
 }
 
-func startWebSocket() {
+func startWebSocket(sendLineData <-chan LinesData) {
 	http.HandleFunc("/city", city)
 	log.Fatal(http.ListenAndServe(*addr, nil))
 }
