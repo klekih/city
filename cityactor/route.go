@@ -100,7 +100,7 @@ func generateRandomRoute(config *Config) (rt *Route, err error) {
 		p2CoordLat,
 		"&locale=en-US&vehicle=car&weighting=fastest&elevation=false&use_miles=false&layer=Omniscale&points_encoded=false")
 
-	fmt.Println("Tyring link:", link)
+	fmt.Println("Trying link:", link)
 
 	retries := config.GetRouteRetries
 

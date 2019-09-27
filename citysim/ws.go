@@ -13,7 +13,7 @@ import (
 type LinesData struct {
 }
 
-var addr = flag.String("addr", "localhost:9000", "http service address")
+var addr = flag.String("addr", ":9000", "http service address")
 
 var upgrader = websocket.Upgrader{} // use default options
 
