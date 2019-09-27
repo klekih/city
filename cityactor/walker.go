@@ -109,6 +109,9 @@ func advance(city *common.CityInterface, chanReport chan common.Report, lineChan
 		chanReport <- exitReport
 
 		currentInstructionIndex++
+		if currentInstructionIndex >= len(myRoute.Paths[0].Instructions) {
+			return
+		}
 		currentInstruction = myRoute.Paths[0].Instructions[currentInstructionIndex]
 		onFirstPointIndex := currentInstruction.Interval[0]
 		onSecondPointIndex := currentInstruction.Interval[1]
