@@ -13,8 +13,8 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	sendLineDataChan := make(chan LinesData)
-	go startWebSocket(sendLineDataChan)
+	frontEndChan := make(chan LinesData)
+	go startWebSocket(frontEndChan)
 	defer l.Close()
 	for {
 		conn, err := l.Accept()
@@ -22,6 +22,6 @@ func main() {
 			log.Fatal(err)
 		}
 
-		go comm(conn)
+		go comm(conn, frontEndChan)
 	}
 }

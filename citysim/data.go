@@ -23,7 +23,7 @@ func newData() {
 	}
 }
 
-func deliverLineData(line [][]float64) {
+func deliverLineData(line [][]float64) int {
 
 	initData()
 
@@ -33,13 +33,13 @@ func deliverLineData(line [][]float64) {
 		if result == identicalLines {
 			elemLine.actors++
 			elem.Value = elemLine
-			return
+			return elemLine.actors
 		}
 	}
 
 	newLineData := _LineData{line, 1}
-
 	topLevelList.PushBack(newLineData)
+	return 1
 }
 
 func getLineData(line [][]float64) int {
@@ -64,10 +64,10 @@ func getLineData(line [][]float64) int {
 	return totalActors
 }
 
-func deleteLineData(line [][]float64) {
+func deleteLineData(line [][]float64) int {
 
 	if topLevelList == nil {
-		return
+		return 0
 	}
 
 	for elem := topLevelList.Front(); elem != nil; elem = elem.Next() {
@@ -76,9 +76,13 @@ func deleteLineData(line [][]float64) {
 		if result == identicalLines {
 			if elemLine.actors == 1 {
 				topLevelList.Remove(elem)
+				return 0
 			} else {
 				elemLine.actors--
+				return elemLine.actors
 			}
 		}
 	}
+
+	return 0
 }

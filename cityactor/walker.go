@@ -44,8 +44,8 @@ func StartWalker(config *Config, city *common.CityInterface) chan WalkerStatus {
 			select {
 			case <-ticker.C:
 				advance(city, reportChan, lineChan)
-			case j := <-lineChan:
-				fmt.Println("Received answer with line", j)
+			case _ = <-lineChan:
+				//fmt.Println("Received answer with line", j)
 			}
 		}
 	}()
@@ -124,8 +124,6 @@ func advance(city *common.CityInterface, chanReport chan common.Report, lineChan
 
 		currentPosInInstruction = 0
 	} else {
-		fmt.Println("On", currentInstruction.StreetName, ":",
-			currentPosInInstruction, "of", distance)
 	}
 
 	firstPointIndex := currentInstruction.Interval[0]

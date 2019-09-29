@@ -25,12 +25,12 @@ var sendLineDataChan <-chan LinesData
 
 func waitForIncomingMessages(conn *websocket.Conn) {
 	for {
-		_, message, err := conn.ReadMessage()
+		messageType, message, err := conn.ReadMessage()
 		if err != nil {
 			log.Println("Error reading from front end:", err)
 			break
 		}
-		log.Printf("Received from front end: %s", message)
+		log.Printf("Received from front end. type: %d  msg: %s", messageType, message)
 	}
 }
 
@@ -48,7 +48,7 @@ func city(w http.ResponseWriter, r *http.Request) {
 		case data := <-sendLineDataChan:
 			respBytes := new(bytes.Buffer)
 			json.NewEncoder(respBytes).Encode(data)
-			err := c.WriteMessage(-1, respBytes.Bytes())
+			err := c.WriteMessage(1, respBytes.Bytes())
 			if err != nil {
 				log.Println("Error writing to front end:", err)
 			}
@@ -57,6 +57,7 @@ func city(w http.ResponseWriter, r *http.Request) {
 }
 
 func startWebSocket(sendLineData <-chan LinesData) {
+	sendLineDataChan = sendLineData
 	http.HandleFunc("/city", city)
 	log.Fatal(http.ListenAndServe(*addr, nil))
 }
