@@ -51,6 +51,7 @@ func city(w http.ResponseWriter, r *http.Request) {
 			err := c.WriteMessage(1, respBytes.Bytes())
 			if err != nil {
 				log.Println("Error writing to front end:", err)
+				break
 			}
 		}
 	}
