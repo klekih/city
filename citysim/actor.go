@@ -27,10 +27,14 @@ func comm(c net.Conn, frontChan chan<- LinesData) {
 		payload := env.Payload.(common.Report)
 		if payload.ReportDetail == common.ReportOnTheLine {
 			density := deliverLineData(payload.CurrentLine)
-			frontChan <- LinesData{payload.CurrentLine, density}
+			if len(payload.CurrentLine) > 0 {
+				frontChan <- LinesData{payload.CurrentLine, density}
+			}
 		} else {
 			density := deleteLineData(payload.CurrentLine)
-			frontChan <- LinesData{payload.CurrentLine, density}
+			if len(payload.CurrentLine) > 0 {
+				frontChan <- LinesData{payload.CurrentLine, density}
+			}
 		}
 	case common.AskForLine:
 		enc := gob.NewEncoder(c)
